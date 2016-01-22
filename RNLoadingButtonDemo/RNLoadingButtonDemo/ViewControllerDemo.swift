@@ -45,7 +45,7 @@ class ViewControllerDemo: UIViewController {
         
         let indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 15),
             type: .BallPulse)
-        customButton.setCustomLoadingView(indicatorView, currentStateKey: "animating", animation: {
+        customButton.setCustomLoadingView(indicatorView, animation: {
             indicatorView.startAnimation()
         }, completion: {
             indicatorView.hidesWhenStopped = true

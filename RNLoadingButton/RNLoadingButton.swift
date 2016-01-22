@@ -52,7 +52,6 @@ public class RNLoadingButton: UIButton {
     public let activityIndicatorView:UIActivityIndicatorView! = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
     var customIndicatorView: UIView?
-    var customLoadingStateKey: String?
     var customLoadingAnimation: (()->Void)?
     var customLoadingCompletion: (()->Void)?
     
@@ -168,9 +167,8 @@ public class RNLoadingButton: UIButton {
     
     // MARK: - Public Methods
     
-    public func setCustomLoadingView(view: UIView, currentStateKey: String, animation: (()->Void), completion: (()->Void)) {
+    public func setCustomLoadingView(view: UIView, animation: (()->Void), completion: (()->Void)) {
         customIndicatorView = view
-        customLoadingStateKey = currentStateKey
         customLoadingAnimation = animation
         customLoadingCompletion = completion
         setupActivityIndicator()
