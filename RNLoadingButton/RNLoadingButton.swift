@@ -51,6 +51,11 @@ public class RNLoadingButton: UIButton {
     
     public let activityIndicatorView:UIActivityIndicatorView! = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
+    var customIndicatorView: UIView?
+    var customLoadingStateKey: String?
+    var customLoadingAnimation: (()->Void)?
+    var customLoadingCompletion: (()->Void)?
+    
     // Internal properties
     let imagens:NSMutableDictionary! = NSMutableDictionary()
     let texts:NSMutableDictionary! = NSMutableDictionary()
@@ -149,13 +154,27 @@ public class RNLoadingButton: UIButton {
     override public func layoutSubviews() {
         super.layoutSubviews()
         
-        let style = self.activityIndicatorStyleForState(self.currentControlState())
-        self.activityIndicatorView.activityIndicatorViewStyle = style
-        self.activityIndicatorView.frame = self.frameForActivityIndicator()
-        self.bringSubviewToFront(self.activityIndicatorView)
+        if let indicator = customIndicatorView {
+            indicator.frame = frameForCustomIndicator()
+            bringSubviewToFront(indicator)
+        } else {
+            let style = self.activityIndicatorStyleForState(self.currentControlState())
+            self.activityIndicatorView.activityIndicatorViewStyle = style
+            self.activityIndicatorView.frame = self.frameForActivityIndicator()
+            self.bringSubviewToFront(self.activityIndicatorView)
+        }
+        
     }
     
     // MARK: - Public Methods
+    
+    public func setCustomLoadingView(view: UIView, currentStateKey: String, animation: (()->Void), completion: (()->Void)) {
+        customIndicatorView = view
+        customLoadingStateKey = currentStateKey
+        customLoadingAnimation = animation
+        customLoadingCompletion = completion
+        setupActivityIndicator()
+    }
     
     public func setActivityIndicatorStyle( style:UIActivityIndicatorViewStyle, state:UIControlState) {
         let s:NSNumber = NSNumber(integer: style.rawValue);
@@ -189,12 +208,21 @@ public class RNLoadingButton: UIButton {
     // MARK: - Internal Methods
     
     func setupActivityIndicator() {
-        self.activityIndicatorView.hidesWhenStopped = true
-        self.activityIndicatorView.startAnimating()
-        self.addSubview(self.activityIndicatorView)
+        if let indicator = customIndicatorView {
+            activityIndicatorView.removeFromSuperview() // remove default indicator
+            self.addSubview(indicator)
+            
+            let tap = UITapGestureRecognizer(target: self, action: Selector("activityIndicatorTapped:"))
+            indicator.addGestureRecognizer(tap)
+        } else {
+            self.activityIndicatorView.hidesWhenStopped = true
+            self.activityIndicatorView.startAnimating()
+            self.addSubview(self.activityIndicatorView)
+            
+            let tap = UITapGestureRecognizer(target: self, action: Selector("activityIndicatorTapped:"))
+            self.activityIndicatorView.addGestureRecognizer(tap)
+        }
         
-        let tap = UITapGestureRecognizer(target: self, action: Selector("activityIndicatorTapped:"))
-        self.activityIndicatorView.addGestureRecognizer(tap)
     }
     
     func currentControlState() -> UIControlState {
@@ -280,7 +308,12 @@ public class RNLoadingButton: UIButton {
     
     private func configureControlState(state:UIControlState) {
         if self.loading {
-            self.activityIndicatorView.startAnimating();
+            if let _ = customIndicatorView {
+                customLoadingAnimation!()
+            } else {
+                self.activityIndicatorView.startAnimating();
+            }
+            
             if self.hideImageWhenLoading {
                 
                 var imgTmp:UIImage? = nil
@@ -310,7 +343,11 @@ public class RNLoadingButton: UIButton {
             }
         }
         else {
-            self.activityIndicatorView.stopAnimating();
+            if let _ = customIndicatorView {
+                customLoadingCompletion!()
+            } else {
+                self.activityIndicatorView.stopAnimating()
+            }
             super.setImage(self.imageForState(state), forState: state)
             super.imageView?.image = self.imageForState(state)
             super.setTitle(self.titleForState(state), forState: state)
@@ -318,6 +355,65 @@ public class RNLoadingButton: UIButton {
         }
         
         self.setNeedsLayout()
+    }
+    
+    private func frameForCustomIndicator() -> CGRect {
+        guard let indicator = customIndicatorView else {
+            return CGRectZero
+        }
+        
+        var frame:CGRect = CGRectZero;
+        frame.size = indicator.frame.size;
+        frame.origin.y = (self.frame.size.height - frame.size.height) / 2;
+        
+        switch self.activityIndicatorAlignment {
+            
+        case RNActivityIndicatorAlignment.Left:
+            // top,  left bottom right
+            frame.origin.x += self.activityIndicatorEdgeInsets.left;
+            frame.origin.y += self.activityIndicatorEdgeInsets.top;
+            
+        case RNActivityIndicatorAlignment.Center:
+            frame.origin.x = (self.frame.size.width - frame.size.width) / 2;
+            
+        case RNActivityIndicatorAlignment.Right:
+            var lengthOccupied:CFloat = 0;
+            var x:CFloat = 0;
+            let imageView:UIImageView = self.imageView!;
+            let titleLabel:UILabel = self.titleLabel!;
+            
+            //let xa = CGFloat(UInt(arc4random_uniform(UInt32(UInt(imageView.frame.size.width) * 5))))// - self.gameView.bounds.size.width * 2
+            
+            if (imageView.image != nil && titleLabel.text != nil){
+                lengthOccupied = Float( imageView.frame.size.width + titleLabel.frame.size.width );
+                
+                
+                if (imageView.frame.origin.x > titleLabel.frame.origin.x){
+                    lengthOccupied += Float( imageView.frame.origin.x )
+                }
+                else {
+                    lengthOccupied += Float( titleLabel.frame.origin.x )
+                }
+            }
+            else if (imageView.image != nil){
+                lengthOccupied = Float( imageView.frame.size.width + imageView.frame.origin.x )
+            }
+            else if (titleLabel.text != nil){
+                lengthOccupied = Float( titleLabel.frame.size.width + imageView.frame.origin.x )
+            }
+            
+            x =  Float(lengthOccupied) + Float( self.activityIndicatorEdgeInsets.left )
+            if ( Float(x) + Float(frame.size.width) > Float(self.frame.size.width) ){
+                x = Float(self.frame.size.width) - Float(frame.size.width + self.activityIndicatorEdgeInsets.right);
+            }
+            else if ( Float(x + Float(frame.size.width) ) > Float(self.frame.size.width - self.activityIndicatorEdgeInsets.right)){
+                x = Float(self.frame.size.width) - ( Float(frame.size.width) + Float(self.activityIndicatorEdgeInsets.right) );
+            }
+            
+            frame.origin.x = CGFloat(x);
+        }
+        
+        return frame;
     }
     
     private func frameForActivityIndicator() -> CGRect {

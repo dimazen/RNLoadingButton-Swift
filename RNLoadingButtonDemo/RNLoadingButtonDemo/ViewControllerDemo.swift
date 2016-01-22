@@ -12,6 +12,7 @@ class ViewControllerDemo: UIViewController {
     
     @IBOutlet var btn1:RNLoadingButton!
     @IBOutlet var btn2:RNLoadingButton!
+    @IBOutlet weak var customButton: RNLoadingButton!
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -41,6 +42,15 @@ class ViewControllerDemo: UIViewController {
         btn2.setActivityIndicatorStyle(UIActivityIndicatorViewStyle.Gray, state: UIControlState.Disabled)
         btn2.activityIndicatorEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
         btn2.setTitle("Loading", forState: UIControlState.Disabled)
+        
+        let indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 15),
+            type: .BallPulse)
+        customButton.setCustomLoadingView(indicatorView, currentStateKey: "animating", animation: {
+            indicatorView.startAnimation()
+        }, completion: {
+            indicatorView.hidesWhenStopped = true
+            indicatorView.stopAnimation()
+        })
 
     }
 

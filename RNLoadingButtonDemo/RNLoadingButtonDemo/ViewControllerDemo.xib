@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9058" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9048"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewControllerDemo" customModule="RNLoadingButtonDemo" customModuleProvider="target">
             <connections>
                 <outlet property="btn1" destination="CBk-QH-8SU" id="e1E-gr-pfc"/>
                 <outlet property="btn2" destination="eMu-tn-nT1" id="Mdj-Lp-l5F"/>
+                <outlet property="customButton" destination="iM8-BA-s47" id="T6x-Fj-bt3"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -95,12 +96,28 @@
                         <action selector="doTap:" destination="-1" eventType="touchUpInside" id="406-lY-ufp"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iM8-BA-s47" customClass="RNLoadingButton" customModule="RNLoadingButtonDemo" customModuleProvider="target">
+                    <rect key="frame" x="57" y="325" width="207" height="30"/>
+                    <color key="backgroundColor" red="0.33333333329999998" green="0.67450980390000004" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="207" id="Som-Vb-876"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                    <state key="normal" title="Custom Indicator">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonTapAction:" destination="-1" eventType="touchUpInside" id="rfp-MY-hvR"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.93333339691162109" green="0.93333339691162109" blue="0.93333339691162109" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
+                <constraint firstItem="iM8-BA-s47" firstAttribute="top" secondItem="Vmx-pv-AYF" secondAttribute="bottom" constant="19" id="CvQ-u3-bTA"/>
                 <constraint firstItem="eMu-tn-nT1" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="FQZ-If-cmF"/>
                 <constraint firstItem="eMu-tn-nT1" firstAttribute="top" secondItem="CBk-QH-8SU" secondAttribute="bottom" constant="17" id="IlD-Gt-Uge"/>
                 <constraint firstItem="h6b-xM-vOz" firstAttribute="top" secondItem="eMu-tn-nT1" secondAttribute="bottom" constant="23" id="J7u-Xt-ONy"/>
+                <constraint firstItem="iM8-BA-s47" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="OGe-Qe-6Dy"/>
                 <constraint firstItem="CBk-QH-8SU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ob6-Yg-sWn"/>
                 <constraint firstItem="Vmx-pv-AYF" firstAttribute="top" secondItem="h6b-xM-vOz" secondAttribute="bottom" constant="27" id="QkB-q5-eR7"/>
                 <constraint firstItem="h6b-xM-vOz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Z2i-xj-fvH"/>
