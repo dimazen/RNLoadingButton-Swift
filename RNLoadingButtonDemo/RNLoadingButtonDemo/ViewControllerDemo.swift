@@ -14,7 +14,7 @@ class ViewControllerDemo: UIViewController {
     @IBOutlet var btn2:RNLoadingButton!
     @IBOutlet weak var customButton: RNLoadingButton!
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         // Custom initialization
     }
@@ -30,21 +30,21 @@ class ViewControllerDemo: UIViewController {
         // Configure State
         btn1.hideTextWhenLoading = false
         btn1.loading = false
-        btn1.activityIndicatorAlignment = RNActivityIndicatorAlignment.Right
+        btn1.activityIndicatorAlignment = RNActivityIndicatorAlignment.right
         btn1.activityIndicatorEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 10)
-        btn1.setTitleColor(UIColor(white: 0.673, alpha: 1.0), forState: UIControlState.Disabled)
-        btn1.setTitle("connecting           ", forState: UIControlState.Disabled)
+        btn1.setTitleColor(UIColor(white: 0.673, alpha: 1.0), for: UIControlState.disabled)
+        btn1.setTitle("connecting           ", for: UIControlState.disabled)
         
         
         btn2.hideTextWhenLoading = false
         btn2.loading = false
-        btn2.activityIndicatorAlignment = RNActivityIndicatorAlignment.Left
-        btn2.setActivityIndicatorStyle(UIActivityIndicatorViewStyle.Gray, state: UIControlState.Disabled)
+        btn2.activityIndicatorAlignment = RNActivityIndicatorAlignment.left
+        btn2.setActivityIndicatorStyle(UIActivityIndicatorViewStyle.gray, state: UIControlState.disabled)
         btn2.activityIndicatorEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0)
-        btn2.setTitle("Loading", forState: UIControlState.Disabled)
+        btn2.setTitle("Loading", for: UIControlState.disabled)
         
         let indicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 15),
-            type: .BallPulse)
+            type: .ballPulse)
         customButton.setCustomLoadingView(indicatorView, animation: {
             indicatorView.startAnimation()
         }, completion: {
@@ -55,42 +55,42 @@ class ViewControllerDemo: UIViewController {
     }
 
     
-    func randomAttributes(button:RNLoadingButton) {
+    func randomAttributes(_ button:RNLoadingButton) {
         
         buttonTapAction(button)
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue(), {
+        let time = DispatchTime.now() + Double(Int64(1.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
             // your function here
             self.randomAttributes(button)
             })
     }
     
-    @IBAction func buttonTapAction(button:RNLoadingButton) {
+    @IBAction func buttonTapAction(_ button:RNLoadingButton) {
         
         button.loading = !button.loading
-        button.activityIndicatorAlignment = RNActivityIndicatorAlignment.Center
+        button.activityIndicatorAlignment = RNActivityIndicatorAlignment.center
         button.hideImageWhenLoading = true
         
     }
     
     
-    @IBAction func doTap(sender:RNLoadingButton) {
+    @IBAction func doTap(_ sender:RNLoadingButton) {
         
-        sender.enabled = false
+        sender.isEnabled = false
         sender.loading = true;
         
         if sender.tag == 3 {
             sender.hideImageWhenLoading = true
         }
         
-        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(3.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(time, dispatch_get_main_queue(), {
-            sender.enabled = true
+        let time = DispatchTime.now() + Double(Int64(3.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: time, execute: {
+            sender.isEnabled = true
             sender.loading = false
             
             if sender.tag == 3 {
-                sender.selected = !sender.selected
+                sender.isSelected = !sender.isSelected
             }
         })
     }
