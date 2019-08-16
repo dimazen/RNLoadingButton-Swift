@@ -291,9 +291,9 @@ public enum NVActivityIndicatorType {
 }
 
 open class NVActivityIndicatorView: UIView {
-    fileprivate static let DEFAULT_TYPE: NVActivityIndicatorType = .pacman
-    fileprivate static let DEFAULT_COLOR = UIColor.white
-    fileprivate static let DEFAULT_SIZE: CGSize = CGSize(width: 40, height: 40)
+	public static let DEFAULT_TYPE: NVActivityIndicatorType = .pacman
+	public static let DEFAULT_COLOR = UIColor.white
+	public static let DEFAULT_SIZE: CGSize = CGSize(width: 40, height: 40)
     
     /// Animation type, value of NVActivityIndicatorType enum.
     open var type: NVActivityIndicatorType

@@ -278,6 +278,7 @@
 				TargetAttributes = {
 					AC85DB49194231C200D6D8D3 = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = BBSJB2XA88;
 						LastSwiftMigration = 0820;
 					};
 				};
@@ -287,6 +288,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = AC85DB41194231C200D6D8D3;
@@ -464,13 +466,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = BBSJB2XA88;
 				INFOPLIST_FILE = RNLoadingButtonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romilsonnunes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RNLoadingButtonDemo;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -480,12 +483,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				DEVELOPMENT_TEAM = BBSJB2XA88;
 				INFOPLIST_FILE = RNLoadingButtonDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.romilsonnunes.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RNLoadingButtonDemo;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
